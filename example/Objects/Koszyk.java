@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Koszyk {
     int rozm = 6;
+    double koszt = 0;
     Product[] produkty = new Product[rozm];
     public Koszyk(){
         produkty[0] = new Product("5414635120807", "Puszka", 20.99);
@@ -18,10 +19,12 @@ public class Koszyk {
     public void dodaj(String barcode){
         if(czyjest(barcode) != -1){
             kosz.get(czyjest(barcode))[1]++;
+            koszt += ((double) Math.round((produkty[wyszukajProdukt(barcode)].price * 100)) / 100);
         }
         else{
             if(wyszukajProdukt(barcode) != -1){
                 kosz.add(new int[]{wyszukajProdukt(barcode), 1});
+                koszt += ((double) Math.round((produkty[wyszukajProdukt(barcode)].price * 100)) / 100);
             }
         }
     }
@@ -48,5 +51,8 @@ public class Koszyk {
         for(int[] i : kosz){
             System.out.println(produkty[i[0]].name + " " + i[1]);
         }
+        System.out.println("===========================");
+        System.out.println("Koszt: " + String.format("%.2f",koszt));
     }
+
 }

@@ -2,11 +2,12 @@ package org.example;
 
 import org.example.Objects.Koszyk;
 import org.example.Objects.Product;
+import org.example.Objects.testDatabase;
 
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Koszyk koszyk = new Koszyk();
         Scanner scanner = new Scanner(System.in);
@@ -14,13 +15,15 @@ public class Main {
         boolean contin = true;
         while(contin) {
             String input = scanner.nextLine();
-            if(input.equals("N")) {
+            if(input.length() != 13) {
                 contin = false;
             }
             else{
                 koszyk.dodaj(input);
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+                koszyk.wypiszKoszyk();
             }
         }
-        koszyk.wypiszKoszyk();
     }
 }
