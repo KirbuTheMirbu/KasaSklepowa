@@ -15,7 +15,7 @@ public class Main {
         boolean contin = true;
         while(contin) {
             String input = scanner.nextLine();
-            if(input.length() != 13) {
+            if(input.length() != 13) {//if (Barcode.isBarcode(input))
                 contin = false;
             }
             else{

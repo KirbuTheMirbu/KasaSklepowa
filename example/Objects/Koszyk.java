@@ -49,7 +49,7 @@ public class Koszyk {
 
     public void wypiszKoszyk(){
         for(int[] i : kosz){
-            System.out.println(produkty[i[0]].name + " " + i[1]);
+            System.out.println(produkty[i[0]].name + " " + i[1] + " * " + produkty[i[0]].price + " = " + i[1] * produkty[i[0]].price);
         }
         System.out.println("===========================");
         System.out.println("Koszt: " + String.format("%.2f",koszt));
