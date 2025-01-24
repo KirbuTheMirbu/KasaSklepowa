@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sty 22, 2025 at 01:56 PM
+-- Generation Time: Sty 24, 2025 at 01:03 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `bank`
 --
-CREATE DATABASE IF NOT EXISTS `bank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `bank`;
 
 -- --------------------------------------------------------
 
@@ -29,7 +27,6 @@ USE `bank`;
 -- Struktura tabeli dla tabeli `karty`
 --
 
-DROP TABLE IF EXISTS `karty`;
 CREATE TABLE `karty` (
   `id_karty` int(11) NOT NULL,
   `id_konta` int(11) NOT NULL,
@@ -39,13 +36,23 @@ CREATE TABLE `karty` (
   `limit_karty` double DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `karty`
+--
+
+INSERT INTO `karty` (`id_karty`, `id_konta`, `numer_karty`, `termin_waznosci`, `cvv`, `limit_karty`) VALUES
+(1, 1, '1234567812345678', '2027-12-31', '123', 2000),
+(2, 2, '2345678923456789', '2026-11-30', '456', 1500),
+(3, 3, '3456789034567890', '2028-10-31', '789', 3000),
+(4, 4, '4567890145678901', '2025-09-30', '012', 1000),
+(5, 5, '5678901256789012', '2029-08-31', '345', 5000);
+
 -- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `klienci`
 --
 
-DROP TABLE IF EXISTS `klienci`;
 CREATE TABLE `klienci` (
   `id_klienta` int(11) NOT NULL,
   `imie` varchar(50) NOT NULL,
@@ -56,13 +63,23 @@ CREATE TABLE `klienci` (
   `data_urodzenia` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `klienci`
+--
+
+INSERT INTO `klienci` (`id_klienta`, `imie`, `nazwisko`, `adres`, `telefon`, `email`, `data_urodzenia`) VALUES
+(1, 'Jan', 'Kowalski', 'ul. Główna 10, Warszawa', '500123456', 'jan.kowalski@example.com', '1985-05-15'),
+(2, 'Anna', 'Nowak', 'ul. Zielona 5, Kraków', '511654789', 'anna.nowak@example.com', '1990-07-20'),
+(3, 'Marek', 'Wiśniewski', 'ul. Jasna 8, Wrocław', '600987123', 'marek.wisniewski@example.com', '1982-03-10'),
+(4, 'Ewa', 'Zielińska', 'ul. Kwiatowa 12, Gdańsk', '601345678', 'ewa.zielinska@example.com', '1995-11-05'),
+(5, 'Tomasz', 'Kamiński', 'ul. Szkolna 15, Poznań', '502876543', 'tomasz.kaminski@example.com', '1988-02-25');
+
 -- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `konta`
 --
 
-DROP TABLE IF EXISTS `konta`;
 CREATE TABLE `konta` (
   `id_konta` int(11) NOT NULL,
   `id_klienta` int(11) NOT NULL,
@@ -71,13 +88,23 @@ CREATE TABLE `konta` (
   `saldo` double DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `konta`
+--
+
+INSERT INTO `konta` (`id_konta`, `id_klienta`, `numer_konta`, `typ_konta`, `saldo`) VALUES
+(1, 1, 'PL121020102030405060', 'Oszczędnościowe', 5000),
+(2, 2, 'PL781020102030405060', 'Bieżące', 3000),
+(3, 3, 'PL901020102030405060', 'Oszczędnościowe', 7000),
+(4, 4, 'PL341020102030405060', 'Bieżące', 1500),
+(5, 5, 'PL451020102030405060', 'Firmowe', 10000);
+
 -- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `transakcje`
 --
 
-DROP TABLE IF EXISTS `transakcje`;
 CREATE TABLE `transakcje` (
   `id_transakcji` int(11) NOT NULL,
   `id_karty` int(11) NOT NULL,
@@ -85,6 +112,18 @@ CREATE TABLE `transakcje` (
   `kwota` double NOT NULL,
   `typ_transakcji` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transakcje`
+--
+
+INSERT INTO `transakcje` (`id_transakcji`, `id_karty`, `data`, `kwota`, `typ_transakcji`) VALUES
+(1, 1, '2025-01-15 09:30:00', 250, 'Zakup w sklepie'),
+(2, 1, '2025-01-16 13:45:00', 100, 'Płatność online'),
+(3, 2, '2025-01-14 07:20:00', 300, 'Wypłata z bankomatu'),
+(4, 3, '2025-01-18 11:00:00', 500, 'Zakup w restauracji'),
+(5, 4, '2025-01-20 15:00:00', 200, 'Płatność online'),
+(6, 5, '2025-01-21 18:30:00', 1000, 'Zakup sprzętu komputerowego');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -128,25 +167,25 @@ ALTER TABLE `transakcje`
 -- AUTO_INCREMENT for table `karty`
 --
 ALTER TABLE `karty`
-  MODIFY `id_karty` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_karty` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `klienci`
 --
 ALTER TABLE `klienci`
-  MODIFY `id_klienta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_klienta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `konta`
 --
 ALTER TABLE `konta`
-  MODIFY `id_konta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_konta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `transakcje`
 --
 ALTER TABLE `transakcje`
-  MODIFY `id_transakcji` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_transakcji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
