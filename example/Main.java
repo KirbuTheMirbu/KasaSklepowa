@@ -15,7 +15,13 @@ public class Main {
         boolean contin = true;
         while(contin) {
             String input = scanner.nextLine();
-            if(input.length() != 13) {//if (Barcode.isBarcode(input))
+            if(input.equals("reset") || input.equals("Reset")) {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+                koszyk.wypiszKoszyk();
+                koszyk.resetujKoszyk();
+            }
+            else if(input.length() != 13) {//if (Barcode.isBarcode(input))
                 contin = false;
             }
             else{
@@ -23,6 +29,21 @@ public class Main {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
                 koszyk.wypiszKoszyk();
+            }
+        }
+
+        System.out.println("Wybiesz metodę płatności(1 - Gotówka, 2 - Karta)");
+        contin = true;
+        while(contin) {
+            String input = scanner.nextLine();
+            if(input.equals("1")) {
+                System.out.print("Gotówka: ");
+                int money = Integer.parseInt(scanner.nextLine());
+                koszyk.platnoscGot(money);
+                contin = false;
+            }
+            else if(input.equals("2")) {//if (Barcode.isBarcode(input))
+                contin = false;
             }
         }
     }
