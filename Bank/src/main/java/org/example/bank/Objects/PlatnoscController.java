@@ -28,11 +28,18 @@ public class PlatnoscController {
                         if(platnosc.getKwota() < limit){
                             String konto = "select * from klienci join konta on klienci.id_klienta = konta.id_klienta where id_konta='" + rs.getInt(2) + "'";
                             ResultSet res = conn.createStatement().executeQuery(konto);
-                            System.out.println(res.getInt(11));
-                            return String.valueOf(res.getInt(12));
-                            //String kradziez = "update konta set saldo="+(res.getInt(12) - platnosc.getKwota())+" where id_klienta='" + res.getInt(1) + "'";
-                            //ResultSet res2 = conn.createStatement().executeQuery(kradziez);
-                            //return "Transakcja udana";
+                            res.next();
+                            if(res.getInt(12) < platnosc.getKwota()){
+                                return "Niewystarczająco środków na koncie";
+                            }
+                            String kradziez = "update konta set saldo="+(res.getInt(12) - platnosc.getKwota())+" where id_klienta='" + res.getInt(1) + "'";
+                            conn.createStatement().executeUpdate(kradziez);
+                            String dodaj = "INSERT INTO transakcje(id_karty, data, kwota, typ_transakcji) " +
+                                    "VALUES ('"+rs.getInt(1)+"', '"+java.time.LocalDateTime.now()+"', '"
+                                    +platnosc.getKwota()+"', 'Zakupy w sklepie')";
+                            conn.createStatement().executeUpdate(dodaj);
+
+                            return "Transakcja udana";
                         }
                         else{
                             return "Przekroczono limit";
@@ -43,9 +50,10 @@ public class PlatnoscController {
                     }
                 }
             }
+            return "Nie znaleziono karty";
 
 
-        return "Dodano klienta: " + platnosc.getNumer_karty() + " " + platnosc.getTermin_waznosci() + ", email: " + platnosc.getCvv()
-                + " " + platnosc.getKwota();
+        //return "Dodano klienta: " + platnosc.getNumer_karty() + " " + platnosc.getTermin_waznosci() + ", email: " + platnosc.getCvv()
+                //+ " " + platnosc.getKwota();
     }
 }
