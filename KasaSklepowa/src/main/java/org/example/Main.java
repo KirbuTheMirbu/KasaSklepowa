@@ -49,7 +49,7 @@ public class Main {
             else if(input.equals("2")) {//if (Barcode.isBarcode(input))
                 HttpClient client = HttpClient.newHttpClient();
                 System.out.print("Numer Karty: ");
-                int cardNum = Integer.parseInt(scanner.nextLine());
+                String cardNum = scanner.nextLine();
                 System.out.print("Numer Daty: ");
                 String expirationDate = scanner.nextLine();
                 System.out.print("Numer CVV: ");
@@ -59,7 +59,7 @@ public class Main {
                         "\"cvv\":\""+cvv+"\",\"kwota\":\""+koszyk.getKoszt()+"\"}";
                 System.out.println(jsonInput);
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(new URI("http://192.168.0.117:9090/api/klienci/dodaj"))
+                        .uri(new URI("http://192.168.0.117:7070/api/platnosc"))
                         .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString(jsonInput))
                         .build();
@@ -67,7 +67,14 @@ public class Main {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 System.out.println("Response Code: " + response.statusCode());
                 System.out.println("Response Body: " + response.body());
-
+                if(response.body().equals("Transakcja udana")) {
+                    koszyk.platnoscKar(cardNum);
+                }
+                else{
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                    System.out.println(response.body());
+                }
                 contin = false;
             }
         }

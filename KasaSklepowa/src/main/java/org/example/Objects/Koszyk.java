@@ -91,6 +91,27 @@ public class Koszyk {
         System.out.println("Reszta: " + String.format("%.2f",(pien - koszt)) + "zł");
     }
 
+    public void platnoscKar(String NKar){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        for(int[] i : kosz){
+            System.out.println(produkty.get(i[0]).name + " " + i[1] + " * " + produkty.get(i[0]).price + " = " + i[1] * produkty.get(i[0]).price);
+        }
+        System.out.println("===========================");
+        System.out.println("Koszt: " + String.format("%.2f",koszt) + "zł");
+        System.out.print("Płatność kartą ");
+        for (int i = 0; i < 16; i++){
+            if(i <= 3 || i >= 12){
+                System.out.print(NKar.charAt(i));
+            }
+            else {
+                System.out.print("*");
+            }
+
+        }
+        System.out.println(" ");
+    }
+
     public double getKoszt(){
         return koszt;
     }
