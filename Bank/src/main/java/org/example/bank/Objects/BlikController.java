@@ -21,9 +21,9 @@ public class BlikController {
         Connection conn = DriverManager.getConnection(url, user, pass);
 
 
-        String sql = "INSERT INTO blik (kod_blik) VALUES ("+blik.getKodBlik()+")";
-        conn.createStatement().executeUpdate(sql);
 
+        String sql = "INSERT INTO blik (kod_blik) VALUES ('"+blik.getKodBlik()+"')";
+        conn.createStatement().executeUpdate(sql);
         return "Dodano kod";
     }
 }

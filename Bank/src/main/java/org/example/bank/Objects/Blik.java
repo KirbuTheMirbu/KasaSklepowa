@@ -1,13 +1,13 @@
 package org.example.bank.Objects;
 
 public class Blik {
-    private int kodBlik;
+    private String kodBlik;
 
-    public int getKodBlik() {
+    public String getKodBlik() {
         return kodBlik;
     }
 
-    public void setKodBlik(int kodBlik) {
+    public void setKodBlik(String kodBlik) {
         this.kodBlik = kodBlik;
     }
 }
