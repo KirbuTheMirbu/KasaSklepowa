@@ -19,16 +19,16 @@ public class BlikController {
     private static final Logger log = LoggerFactory.getLogger(BlikController.class);
 
     @PostMapping("/blik")
-    public String dodajKod(@RequestBody Blik blik, UriComponentsBuilder uriComponentsBuilder) throws SQLException {
+    public String dodajKod(@RequestBody Blik blik/*, UriComponentsBuilder uriComponentsBuilder*/) throws SQLException {
         String url = "jdbc:mariadb://localhost:3306/bank";
         String user = "root";
         String pass = "";
         Connection conn = DriverManager.getConnection(url, user, pass);
 
 
-        System.out.println(blik.getKodBlik());
-        System.out.println(blik.getIdkonta());
-        String sql = "INSERT INTO blik (kod_blik,id_konta) VALUES ('"+blik.getKodBlik()+"','"+blik.getIdkonta()+"')";
+        System.out.println(blik.getKod_blik());
+        System.out.println(blik.getId_konta());
+        String sql = "INSERT INTO blik (kod_blik,id_konta) VALUES ('"+blik.getKod_blik()+"','"+blik.getId_konta()+"')";
         conn.createStatement().executeUpdate(sql);
         return "Dodano kod";
     }
