@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.*;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api")
@@ -19,7 +20,7 @@ public class BlikController {
     private static final Logger log = LoggerFactory.getLogger(BlikController.class);
 
     @PostMapping("/blik")
-    public String dodajKod(@RequestBody Blik blik/*, UriComponentsBuilder uriComponentsBuilder*/) throws SQLException {
+    public String dodajKod(@RequestBody Blik blik/*, UriComponentsBuilder uriComponentsBuilder*/) throws SQLException, InterruptedException {
         String url = "jdbc:mariadb://localhost:3306/bank";
         String user = "root";
         String pass = "";
@@ -30,6 +31,11 @@ public class BlikController {
         System.out.println(blik.getId_konta());
         String sql = "INSERT INTO blik (kod_blik,id_konta) VALUES ('"+blik.getKod_blik()+"','"+blik.getId_konta()+"')";
         conn.createStatement().executeUpdate(sql);
-        return "Dodano kod";
+
+        TimeUnit.SECONDS.sleep(10);
+
+        String sql2 = "DELETE FROM blik WHERE kod_blik='"+blik.getKod_blik()+"'";
+        conn.createStatement().executeUpdate(sql2);
+        return "Wykonano kod";
     }
 }
