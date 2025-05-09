@@ -50,7 +50,7 @@ public class BlikController {
             }
         };
         Timer timer = new Timer("Timer");
-        timer.schedule(task, 10000);
+        timer.schedule(task, 120000);
         return "Wykonano kod";
     }
 }
