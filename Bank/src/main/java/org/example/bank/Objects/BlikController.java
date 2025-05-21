@@ -30,27 +30,14 @@ public class BlikController {
         String pass = "";
         Connection conn = DriverManager.getConnection(url, user, pass);
 
-
+        int tempBlik = (int) Math.floor((Math.random() * 900000) + 100000);
+        blik.setKod_blik(Integer.toString(tempBlik));
         System.out.println(blik.getKod_blik());
         System.out.println(blik.getId_konta());
         String sql = "INSERT INTO blik (kod_blik,id_konta) VALUES ('"+blik.getKod_blik()+"','"+blik.getId_konta()+"')";
         conn.createStatement().executeUpdate(sql);
 
-        //Thread.sleep(5000);
 
-        TimerTask task = new TimerTask() {
-            public void run() {
-                System.out.println("gfgfg");
-                try {
-                    String sql2 = "DELETE FROM blik WHERE kod_blik='"+blik.getKod_blik()+"'";
-                    conn.createStatement().executeUpdate(sql2);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        };
-        Timer timer = new Timer("Timer");
-        timer.schedule(task, 120000);
-        return "Wykonano kod";
+        return blik.getKod_blik();
     }
 }
