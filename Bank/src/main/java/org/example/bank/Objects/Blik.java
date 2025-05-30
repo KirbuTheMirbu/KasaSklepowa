@@ -21,5 +21,13 @@ public class Blik {
 
     private int id_konta;
 
+    private double koszt;
 
+    public double getKoszt() {
+        return koszt;
+    }
+
+    public void setKoszt(double koszt) {
+        this.koszt = koszt;
+    }
 }

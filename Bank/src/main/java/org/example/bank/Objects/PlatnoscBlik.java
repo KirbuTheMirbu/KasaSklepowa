@@ -19,21 +19,25 @@ public class PlatnoscBlik {
     private static final Logger log = LoggerFactory.getLogger(BlikController.class);
 
     @PostMapping("/blikPl")
-    public String dodajKod(@RequestBody String blik, Double kwota/*, UriComponentsBuilder uriComponentsBuilder*/) throws SQLException, InterruptedException {
+    public String dodajKod(@RequestBody Blik blik/*, UriComponentsBuilder uriComponentsBuilder*/) throws SQLException, InterruptedException {
         String url = "jdbc:mariadb://localhost:3306/bank";
         String user = "root";
         String pass = "";
         Connection conn = DriverManager.getConnection(url, user, pass);
 
         String sql = "SELECT * FROM blik";
-        System.out.println("działa "+kwota);
+        System.out.println("działa ");
         ResultSet rs = conn.createStatement().executeQuery(sql);
         while (rs.next()) {
 
-            if(rs.getString(2).equals(blik)){
+            if(rs.getString(2).equals(blik.getKod_blik())){
                 System.out.println("ZNALEZIONO BLIK!!!");
-                String sql2 = "SELECT * FROM klienci WHERE id_konta = "+(rs.getString(1))+"";
+                String sql2 = "SELECT * FROM konta WHERE id_konta = "+(rs.getString(1))+"";
                 ResultSet rs2 = conn.createStatement().executeQuery(sql2);
+                rs2.next();
+                String kradziez = "update konta set saldo="+(rs2.getInt(5) - blik.getKoszt())+" where id_konta='" + rs.getInt(3) + "'";
+                conn.createStatement().executeUpdate(kradziez);
+                return "Udalo sie :)";
             }
             else {
                 System.out.print("Nie ma bliku :( ");
