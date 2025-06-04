@@ -32,10 +32,13 @@ public class PlatnoscBlik {
 
             if(rs.getString(2).equals(blik.getKod_blik())){
                 System.out.println("ZNALEZIONO BLIK!!!");
-                String sql2 = "SELECT * FROM konta WHERE id_konta = "+(rs.getString(1))+"";
+                System.out.println(rs.getString(3));
+                String sql2 = "SELECT * FROM konta WHERE id_konta = "+(rs.getString(3))+"";
                 ResultSet rs2 = conn.createStatement().executeQuery(sql2);
                 rs2.next();
-                String kradziez = "update konta set saldo="+(rs2.getInt(5) - blik.getKoszt())+" where id_konta='" + rs.getInt(1) + "'";
+//                System.out.println(rs2.getDouble(5));
+//                System.out.println(rs.getInt(1));
+                String kradziez = "update konta set saldo="+(rs2.getDouble(5) - blik.getKoszt())+" where id_konta='" + rs.getInt(3) + "'";
                 conn.createStatement().executeUpdate(kradziez);
                 return "Udalo sie :)";
             }
