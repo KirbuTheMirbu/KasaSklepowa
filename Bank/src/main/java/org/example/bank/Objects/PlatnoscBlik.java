@@ -35,7 +35,7 @@ public class PlatnoscBlik {
                 String sql2 = "SELECT * FROM konta WHERE id_konta = "+(rs.getString(1))+"";
                 ResultSet rs2 = conn.createStatement().executeQuery(sql2);
                 rs2.next();
-                String kradziez = "update konta set saldo="+(rs2.getInt(5) - blik.getKoszt())+" where id_konta='" + rs.getInt(3) + "'";
+                String kradziez = "update konta set saldo="+(rs2.getInt(5) - blik.getKoszt())+" where id_konta='" + rs.getInt(1) + "'";
                 conn.createStatement().executeUpdate(kradziez);
                 return "Udalo sie :)";
             }
